@@ -24,6 +24,7 @@ namespace Virtue
         }
 
         public string GitHubUsername { get; set; }
-        public string GitHubPassword { get; set; }
+        // We want to keep this information away from plugins
+        internal string GitHubPassword { get; set; }
     }
 }

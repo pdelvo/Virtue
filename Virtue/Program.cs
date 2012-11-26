@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Virtue.GitHub;
 
 namespace Virtue
 {
     public class Program
     {
+        public static Configuration Configuration { get; set; }
+
         private class StartParameters
         {
             public StartParameters()
@@ -37,6 +40,9 @@ namespace Virtue
                             case "--config":
                                 parameters.Configuration = args[++i];
                                 break;
+                            case "--help":
+                                DisplayHelp();
+                                return;
                             case "--setup":
                                 parameters.RunSetup = true;
                                 break;
@@ -60,6 +66,15 @@ namespace Virtue
 
             if (!File.Exists(parameters.Configuration) || parameters.RunSetup)
                 Setup.FirstTimeSetup();
+            else
+                Configuration = Configuration.Load(parameters.Configuration);
+
+            GitHubAPI.Login(Configuration.GitHubUsername, Configuration.GitHubPassword);
+        }
+
+        private static void DisplayHelp()
+        {
+            // TODO
         }
     }
 }
